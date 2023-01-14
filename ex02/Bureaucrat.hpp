@@ -16,16 +16,19 @@
 # include <iostream>
 # include <string>
 # include <exception>
+# include "Form.hpp"
 
 # define MAX_GRADE 1
 # define MIN_GRADE 150
 
+class Form;
 class Bureaucrat
 {
 	public:
+		Bureaucrat();
 		Bureaucrat(std::string const &name, int grade);
 		Bureaucrat(Bureaucrat const &src);
-		~Bureaucrat();
+		virtual ~Bureaucrat();
 
 		Bureaucrat &operator=(Bureaucrat const &src);
 
@@ -34,17 +37,26 @@ class Bureaucrat
 
 		void incrementGrade();
 		void decrementGrade();
+		void executeForm(Form const &form);
 
 		class GradeTooHighException : public std::exception
 		{
 			public:
-				virtual const char *what() const throw();
+			GradeTooHighException() throw();
+			GradeTooHighException(GradeTooHighException const &src) throw();
+			virtual ~GradeTooHighException() throw();
+			GradeTooHighException &operator=(GradeTooHighException const &src) throw();
+			virtual const char *what() const throw();
 		};
 
 		class GradeTooLowException : public std::exception
 		{
 			public:
-				virtual const char *what() const throw();
+			GradeTooLowException() throw();
+			GradeTooLowException(GradeTooLowException const &src) throw();
+			virtual ~GradeTooLowException() throw();
+			GradeTooLowException &operator=(GradeTooLowException const &src) throw();
+			virtual const char *what() const throw();
 		};
 
 	private:

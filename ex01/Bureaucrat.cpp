@@ -12,6 +12,9 @@
 
 #include "Bureaucrat.hpp"
 
+Bureaucrat::Bureaucrat() : _name("default"), _grade(150)
+{}
+
 Bureaucrat::Bureaucrat(std::string const &name, int grade) : _name(name)
 {
 	if (grade < MAX_GRADE)
@@ -22,9 +25,12 @@ Bureaucrat::Bureaucrat(std::string const &name, int grade) : _name(name)
 		this->_grade = grade;
 }
 
-Bureaucrat::Bureaucrat(Bureaucrat const &src) : _name(src.getName()), _grade(src.getGrade()){}
+Bureaucrat::Bureaucrat(Bureaucrat const &src) : _name(src.getName()),
+												_grade(src.getGrade())
+{}
 
-Bureaucrat::~Bureaucrat(){}
+Bureaucrat::~Bureaucrat()
+{}
 
 Bureaucrat &Bureaucrat::operator=(Bureaucrat const &src)
 {
@@ -41,12 +47,12 @@ const std::string &Bureaucrat::getName() const
 	return (this->_name);
 }
 
-unsigned int		Bureaucrat::getGrade() const
+unsigned int Bureaucrat::getGrade() const
 {
 	return (this->_grade);
 }
 
-void	Bureaucrat::incrementGrade()
+void Bureaucrat::incrementGrade()
 {
 	if ((this->_grade - 1) < MAX_GRADE)
 		throw Bureaucrat::GradeTooHighException();
@@ -54,7 +60,7 @@ void	Bureaucrat::incrementGrade()
 		this->_grade--;
 }
 
-void	Bureaucrat::decrementGrade()
+void Bureaucrat::decrementGrade()
 {
 	if ((this->_grade + 1) > MIN_GRADE)
 		throw Bureaucrat::GradeTooLowException();
@@ -62,9 +68,49 @@ void	Bureaucrat::decrementGrade()
 		this->_grade++;
 }
 
+// GradeTooHighException
+Bureaucrat::GradeTooHighException::GradeTooHighException() throw()
+{}
+
+Bureaucrat::GradeTooHighException::GradeTooHighException(
+		GradeTooHighException const &src) throw()
+{
+	*this = src;
+}
+
+Bureaucrat::GradeTooHighException::~GradeTooHighException() throw()
+{}
+
+Bureaucrat::GradeTooHighException &Bureaucrat::GradeTooHighException::operator=(
+		GradeTooHighException const &src) throw()
+{
+	(void)src;
+	return (*this);
+}
+
 const char *Bureaucrat::GradeTooHighException::what() const throw()
 {
 	return ("Grade too high");
+}
+
+// GradeTooLowException
+Bureaucrat::GradeTooLowException::GradeTooLowException() throw()
+{}
+
+Bureaucrat::GradeTooLowException::GradeTooLowException(
+		GradeTooLowException const &src) throw()
+{
+	*this = src;
+}
+
+Bureaucrat::GradeTooLowException::~GradeTooLowException() throw()
+{}
+
+Bureaucrat::GradeTooLowException &Bureaucrat::GradeTooLowException::operator=(
+		GradeTooLowException const &src) throw()
+{
+	(void)src;
+	return (*this);
 }
 
 const char *Bureaucrat::GradeTooLowException::what() const throw()

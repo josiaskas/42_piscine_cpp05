@@ -6,13 +6,13 @@
 #    By: jkasongo <jkasongo@student.42quebec.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/23 09:32:12 by jkasongo          #+#    #+#              #
-#    Updated: 2022/12/23 09:34:51 by jkasongo         ###   ########.fr        #
+#    Updated: 2023/01/13 13:54:11 by jkasongo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = Bureaucrat
 CC = c++
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -std=c++98
 SRC = main.cpp Bureaucrat.cpp
 OBJ = $(SRC:.cpp=.o)
 
@@ -25,12 +25,10 @@ $(NAME): $(OBJ)
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@rm -f $(OBJ)
-	@echo "Object files removed"
+	rm -f $(OBJ)
 
 fclean: clean
-	@rm -f $(NAME)
-	@echo "Executable removed"
+	rm -f $(NAME)
 
 re: fclean all
 

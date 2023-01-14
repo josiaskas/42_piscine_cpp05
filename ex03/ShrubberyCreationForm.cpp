@@ -5,15 +5,14 @@
 #include <fstream>
 #include "ShrubberyCreationForm.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm() : Form("ShrubberyCreationForm", 145, 137), _target("default") {}
+ShrubberyCreationForm::ShrubberyCreationForm() : Form("ShrubberyCreationForm", "default", 145, 137){}
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string const &target) : Form(
-		"ShrubberyCreationForm", 145, 137), _target(target)
+		"ShrubberyCreationForm", target, 145, 137)
 {}
 
 ShrubberyCreationForm::ShrubberyCreationForm(ShrubberyCreationForm const &src)
-		: Form(src), _target(src._target)
-{}
+		: Form(src){}
 
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {}
@@ -31,17 +30,18 @@ ShrubberyCreationForm::operator=(ShrubberyCreationForm const &src)
 void ShrubberyCreationForm::execute(const Bureaucrat &executor) const
 {
 	if (executor.getGrade() > getGradeToExecute())
-		throw Form::GradeTooLowException();
+		throw Bureaucrat::GradeTooLowException();
 	else if (!getIsSigned())
 		throw Form::NotSignedException();
 	else
 	{
 		std::ofstream file;
 		try {
-			file.open(_target + "_shrubbery");
+			file.open(this->getTarget() + "_shrubbery");
 			if (!file.is_open())
 				throw ShrubberyCreationForm::FileNotOpenException();
 			writeTree(file);
+			file.close();
 		}
 		catch (std::exception &e) {
 			throw ShrubberyCreationForm::FileNotOpenException();
@@ -49,14 +49,8 @@ void ShrubberyCreationForm::execute(const Bureaucrat &executor) const
 	}
 }
 
-char const *ShrubberyCreationForm::FileNotOpenException::what() const throw()
+void ShrubberyCreationForm::writeTree(std::ofstream &file)
 {
-	return ("File issues during execution");
-}
-
-void ShrubberyCreationForm::writeTree(std::ofstream &file) const
-{
-	file.open(_target + "_shrubbery");
 	file << "         v" << std::endl;
 	file << "        >X<" << std::endl;
 	file << "         A" << std::endl;
@@ -77,11 +71,27 @@ void ShrubberyCreationForm::writeTree(std::ofstream &file) const
 	file << "$$$$$$$$$$$$$$$$i$" << std::endl;
 	file << "$$$$$$$$$$$$$$$$$@" << std::endl;
 	file << "$$$$$$$$$$$$$$$$$$" << std::endl;
-	file.close();
 }
 
-std::string const &ShrubberyCreationForm::getTarget() const
+
+ShrubberyCreationForm::FileNotOpenException::FileNotOpenException() throw() {}
+
+ShrubberyCreationForm::FileNotOpenException::FileNotOpenException(
+		FileNotOpenException const &src) throw()
 {
-	return (_target);
+	*this = src;
 }
 
+ShrubberyCreationForm::FileNotOpenException::~FileNotOpenException() throw() {}
+
+ShrubberyCreationForm::FileNotOpenException & ShrubberyCreationForm::FileNotOpenException::operator=(
+		FileNotOpenException const &src) throw()
+{
+	(void)src;
+	return *this;
+}
+
+char const *ShrubberyCreationForm::FileNotOpenException::what() const throw()
+{
+	return ("File issues during execution");
+}

@@ -4,14 +4,16 @@
 
 #include "PresidentialPardonForm.hpp"
 
-PresidentialPardonForm::PresidentialPardonForm() : Form("PresidentialPardonForm", 25, 5), _target("default") {}
+PresidentialPardonForm::PresidentialPardonForm() : Form(
+		"PresidentialPardonForm", "default", 25, 5)
+{}
 
 PresidentialPardonForm::PresidentialPardonForm(std::string const &target)
-		: Form("PresidentialPardonForm", 25, 5), _target(target)
+		: Form("PresidentialPardonForm", target, 25, 5)
 {}
 
 PresidentialPardonForm::PresidentialPardonForm(
-		PresidentialPardonForm const &src) : Form(src), _target(src._target)
+		PresidentialPardonForm const &src) : Form(src)
 {}
 
 PresidentialPardonForm::~PresidentialPardonForm()
@@ -29,13 +31,8 @@ void PresidentialPardonForm::execute(Bureaucrat const &executor) const
 	if (!getIsSigned())
 		throw Form::NotSignedException();
 	if (executor.getGrade() > getGradeToExecute())
-		throw Form::GradeTooLowException();
-	std::cout << _target << " has been pardoned by Zafod Beeblebrox."
+		throw Bureaucrat::GradeTooLowException();
+	std::cout << this->getTarget() << " has been pardoned by Zafod Beeblebrox."
 			  << std::endl;
-}
-
-std::string const &PresidentialPardonForm::getTarget() const
-{
-	return _target;
 }
 

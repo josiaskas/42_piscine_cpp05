@@ -2,15 +2,19 @@
 // Created by Josias Mutshaila kasongo on 2023-01-13.
 //
 
-#ifndef EX02_ROBOTOMYREQUESTFORM_H
-#define EX02_ROBOTOMYREQUESTFORM_H
+#ifndef ROBOTOMYREQUESTFORM_H
+# define ROBOTOMYREQUESTFORM_H
+# include "Form.hpp"
 
-
-
-class RobotomyRequestForm {
-
+class RobotomyRequestForm: public Form {
+	public:
+		RobotomyRequestForm();
+		RobotomyRequestForm(std::string const &target);
+		RobotomyRequestForm(RobotomyRequestForm const &src);
+		virtual ~RobotomyRequestForm();
+		RobotomyRequestForm &operator=(RobotomyRequestForm const &src);
+		virtual void execute(Bureaucrat const &executor) const;
 };
 
 
-
-#endif //EX02_ROBOTOMYREQUESTFORM_H
+#endif //ROBOTOMYREQUESTFORM_H

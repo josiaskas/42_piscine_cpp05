@@ -10,47 +10,96 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Form.hpp"
-
+#include "Bureaucrat.hpp"
+#include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
 int main()
 {
 	try
 	{
-		Form f("Constitution", 0, 0);
-		std::cout << f << std::endl;
-	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << std::endl;
-	}
-
-	try
-	{
-		Form f("Bad Law", 151, 151);
-		std::cout << f << std::endl;
-	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << std::endl;
-	}
-
-	try
-	{
-		Bureaucrat a("John", 1);
-		Bureaucrat b("Joseph", 23);
-		Form f("Flight authorization", 1, 1);
-		std::cout << f << std::endl;
+		Bureaucrat b("John", 1);
 		std::cout << b << std::endl;
-		f.signForm(b);
-		std::cout << "calling the manager" << std::endl;
-		std::cout << a << std::endl;
-		f.signForm(a);
+
+		ShrubberyCreationForm f("home");
 		std::cout << f << std::endl;
+
+		//try to execute a non-signed form
+		b.executeForm(f);
 	}
 	catch (std::exception &e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
+
+	try {
+		Bureaucrat b("Greta", 2);
+		std::cout << b << std::endl;
+
+		ShrubberyCreationForm f("garden");
+		std::cout << f << std::endl;
+
+		//sign the form
+		f.signForm(b);
+
+		b.executeForm(f);
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	try {
+		Bureaucrat b("Joseph", 2);
+		std::cout << b << std::endl;
+
+		RobotomyRequestForm f("Babar");
+		std::cout << f << std::endl;
+
+		//sign the form
+		f.signForm(b);
+
+		b.executeForm(f);
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	try {
+		Bureaucrat b("Elon", 2);
+		std::cout << b << std::endl;
+
+		PresidentialPardonForm f("Kanye");
+		std::cout << f << std::endl;
+
+		//sign the form
+		f.signForm(b);
+
+		b.executeForm(f);
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	//	try {
+	//		Bureaucrat b("Michael", 2);
+	//		std::cout << b << std::endl;
+	//
+	//		// bad files
+	//		ShrubberyCreationForm f("../../../../../../../../../sss/");
+	//		std::cout << f << std::endl;
+	//
+	//		//sign the form
+	//		f.signForm(b);
+	//
+	//		b.executeForm(f);
+	//	}
+	//	catch (std::exception &e)
+	//	{
+	//		std::cerr << e.what() << std::endl;
+	//	}
 	return (0);
 }

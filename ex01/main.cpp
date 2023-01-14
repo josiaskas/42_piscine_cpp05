@@ -10,40 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 int main()
 {
 	try
 	{
-		Bureaucrat b("John", 0);
-		std::cout << b << std::endl;
+		Form f("Constitution", 0, 0);
+		std::cerr << f << std::endl;
 	}
 	catch (std::exception &e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
 
 	try
 	{
-		Bureaucrat b("John", 151);
-		std::cout << b << std::endl;
+		Form f("Bad Law", 151, 151);
+		std::cout << f << std::endl;
 	}
 	catch (std::exception &e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
 
 	try
 	{
-		Bureaucrat b("John", 1);
+		Bureaucrat a("John", 1);
+		Bureaucrat b("Joseph", 23);
+		Form f("Flight authorization", 1, 1);
+		std::cout << f << std::endl;
 		std::cout << b << std::endl;
-		b.incrementGrade();
-		std::cout << b << std::endl;
+		f.signForm(b);
+		std::cout << "calling the manager" << std::endl;
+		std::cout << a << std::endl;
+		f.signForm(a);
+		std::cout << f << std::endl;
 	}
 	catch (std::exception &e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
 	return (0);
 }

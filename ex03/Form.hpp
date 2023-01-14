@@ -19,7 +19,7 @@ class Bureaucrat;
 class Form {
 	public:
 		Form();
-		Form(std::string const &name, unsigned gradeToSign, unsigned int gradeToExecute);
+		Form(std::string const &name, std::string const &target, unsigned gradeToSign, unsigned int gradeToExecute);
 		Form(Form const &src);
 		virtual ~Form();
 		Form &operator=(Form const &src);
@@ -29,27 +29,31 @@ class Form {
 		virtual void execute(Bureaucrat const &executor) const = 0;
 
 		std::string const &getName() const;
+		std::string const &getTarget() const;
 		unsigned int getGradeToSign() const;
 		unsigned int getGradeToExecute() const;
 		bool getIsSigned() const;
-		class GradeTooHighException : public std::exception {
-			public:
-			virtual const char *what() const throw();
-		};
-		class GradeTooLowException : public std::exception {
-			public:
-			virtual const char *what() const throw();
-		};
+
 		class NotSignedException : public std::exception {
 			public:
+			NotSignedException() throw();
+			NotSignedException(NotSignedException const &src) throw();
+			virtual ~NotSignedException() throw();
+			NotSignedException &operator=(NotSignedException const &src) throw();
 			virtual const char *what() const throw();
 		};
 		class AlreadySignedException : public std::exception {
 			public:
+			AlreadySignedException() throw();
+			AlreadySignedException(AlreadySignedException const &src) throw();
+			virtual ~AlreadySignedException() throw();
+			AlreadySignedException &operator=(AlreadySignedException const &src) throw();
 			virtual const char *what() const throw();
 		};
+
 	private:
 		std::string const _name;
+		std::string const _target;
 		bool _isSigned;
 		unsigned int const _gradeToSign;
 		unsigned int const _gradeToExecute;

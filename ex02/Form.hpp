@@ -10,35 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EX01_FORM_H
-# define EX01_FORM_H
+#ifndef EX02_FORM_H
+# define EX02_FORM_H
 # include <iostream>
 # include "Bureaucrat.hpp"
 
+class Bureaucrat;
 class Form {
 	public:
-		Form(std::string const &name, unsigned gradeToSign, unsigned int gradeToExecute);
+		Form();
+		Form(std::string const &name, std::string const &target, unsigned gradeToSign, unsigned int gradeToExecute);
 		Form(Form const &src);
-		~Form();
+		virtual ~Form();
 		Form &operator=(Form const &src);
+
+		void beSigned(Bureaucrat const &bureaucrat);
+		void signForm(Bureaucrat const &bureaucrat);
+		virtual void execute(Bureaucrat const &executor) const = 0;
+
 		std::string const &getName() const;
+		std::string const &getTarget() const;
 		unsigned int getGradeToSign() const;
 		unsigned int getGradeToExecute() const;
 		bool getIsSigned() const;
-		void beSigned(Bureaucrat const &bureaucrat);
-		void signForm(Bureaucrat const &bureaucrat);
 
-		class GradeTooHighException : public std::exception {
+		class NotSignedException : public std::exception {
 			public:
-				virtual const char *what() const throw();
+			NotSignedException() throw();
+			NotSignedException(NotSignedException const &src) throw();
+			virtual ~NotSignedException() throw();
+			NotSignedException &operator=(NotSignedException const &src) throw();
+			virtual const char *what() const throw();
 		};
-		class GradeTooLowException : public std::exception {
+		class AlreadySignedException : public std::exception {
 			public:
-				virtual const char *what() const throw();
+			AlreadySignedException() throw();
+			AlreadySignedException(AlreadySignedException const &src) throw();
+			virtual ~AlreadySignedException() throw();
+			AlreadySignedException &operator=(AlreadySignedException const &src) throw();
+			virtual const char *what() const throw();
 		};
 
 	private:
 		std::string const _name;
+		std::string const _target;
 		bool _isSigned;
 		unsigned int const _gradeToSign;
 		unsigned int const _gradeToExecute;
@@ -46,4 +61,4 @@ class Form {
 
 std::ostream &operator<<(std::ostream &out, Form const &src);
 
-#endif //EX01_FORM_H
+#endif //EX02_FORM_H

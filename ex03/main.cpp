@@ -11,95 +11,32 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "ShrubberyCreationForm.hpp"
+#include "Intern.h"
 
 int main()
 {
 	try
 	{
-		Bureaucrat b("John", 1);
-		std::cout << b << std::endl;
+		Intern someRandomIntern;
+		Form *rrf;
+		rrf = someRandomIntern.makeForm("robotomy request", "Bender");
+		std::cout << *rrf << std::endl;
+		delete rrf;
+		rrf = someRandomIntern.makeForm("presidential pardon", "Bender2");
+		std::cout << *rrf << std::endl;
+		delete rrf;
+		rrf = someRandomIntern.makeForm("shrubbery creation", "Bender3");
+		std::cout << *rrf << std::endl;
+		delete rrf;
 
-		ShrubberyCreationForm f("home");
-		std::cout << f << std::endl;
-
-		//try to execute a non-signed form
-		b.executeForm(f);
+		rrf = someRandomIntern.makeForm("fake name", "Bender");
+		std::cout << *rrf << std::endl;
+		delete rrf;
 	}
 	catch (std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
-
-	try {
-		Bureaucrat b("Greta", 2);
-		std::cout << b << std::endl;
-
-		ShrubberyCreationForm f("garden");
-		std::cout << f << std::endl;
-
-		//sign the form
-		f.signForm(b);
-
-		b.executeForm(f);
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-
-	try {
-		Bureaucrat b("Joseph", 2);
-		std::cout << b << std::endl;
-
-		RobotomyRequestForm f("Babar");
-		std::cout << f << std::endl;
-
-		//sign the form
-		f.signForm(b);
-
-		b.executeForm(f);
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-
-	try {
-		Bureaucrat b("Elon", 2);
-		std::cout << b << std::endl;
-
-		PresidentialPardonForm f("Kanye");
-		std::cout << f << std::endl;
-
-		//sign the form
-		f.signForm(b);
-
-		b.executeForm(f);
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-
-	//	try {
-	//		Bureaucrat b("Michael", 2);
-	//		std::cout << b << std::endl;
-	//
-	//		// bad files
-	//		ShrubberyCreationForm f("../../../../../../../../../sss/");
-	//		std::cout << f << std::endl;
-	//
-	//		//sign the form
-	//		f.signForm(b);
-	//
-	//		b.executeForm(f);
-	//	}
-	//	catch (std::exception &e)
-	//	{
-	//		std::cerr << e.what() << std::endl;
-	//	}
 	return (0);
 }
+

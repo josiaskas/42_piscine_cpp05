@@ -4,20 +4,23 @@
 #include "RobotomyRequestForm.hpp"
 #include <cstdlib>
 
-RobotomyRequestForm::RobotomyRequestForm() : Form("RobotomyRequestForm", 72, 45), _target("default") {}
-
-RobotomyRequestForm::RobotomyRequestForm(std::string const &target)
-		: Form("RobotomyRequestForm", 72, 45), _target(target)
+RobotomyRequestForm::RobotomyRequestForm() : Form("RobotomyRequestForm",
+												  "default", 72, 45)
 {}
 
-RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const &src)
-		: Form(src), _target(src._target)
+RobotomyRequestForm::RobotomyRequestForm(std::string const &target)
+		: Form("RobotomyRequestForm", target, 72, 45)
+{}
+
+RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const &src) : Form(
+		src)
 {}
 
 RobotomyRequestForm::~RobotomyRequestForm()
 {}
 
-RobotomyRequestForm &RobotomyRequestForm::operator=(RobotomyRequestForm const &src)
+RobotomyRequestForm &
+RobotomyRequestForm::operator=(RobotomyRequestForm const &src)
 {
 	(void)src;
 	return *this;
@@ -25,18 +28,22 @@ RobotomyRequestForm &RobotomyRequestForm::operator=(RobotomyRequestForm const &s
 
 void RobotomyRequestForm::execute(const Bureaucrat &executor) const
 {
-	if (!getIsSigned()){
+	if (!getIsSigned())
+	{
 		throw Form::NotSignedException();
 	}
-	if (executor.getGrade() > getGradeToExecute()){
-		throw Form::GradeTooLowException();
+	if (executor.getGrade() > getGradeToExecute())
+	{
+		throw Bureaucrat::GradeTooLowException();
 	}
 	std::cout << "** Noise noise noise **" << std::endl;
-	if (rand() % 2){
-		std::cout << _target << " has been robotomized successfully."
+	if (rand() % 2)
+	{
+		std::cout << this->getTarget() << " has been robotomized successfully."
 				  << std::endl;
 	}
-	else{
+	else
+	{
 		std::cout << "Robotomization failed." << std::endl;
 	}
 }
